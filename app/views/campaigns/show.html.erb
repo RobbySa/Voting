@@ -1,0 +1,24 @@
+<div class='top-bar'>
+  <h2 style='margin: 0; color: white;'>Campaign Viewer</h2>
+</div>
+
+<div class='container'>
+
+  <%= render 'campaign_table', campaigns: @campaigns %>
+
+  <div class='card'>
+    <h4 style='text-align: center;'>View Campaign</h4>
+    <table cellspacing='0' cellpadding='0'>
+      <tr>
+        <th>Candidate</th>
+        <th>Vote count</th>
+      </tr>
+      <% @vote_split.each do |candidate, vote_count| %>
+        <tr>
+          <td><%= candidate %></td>
+          <td><%= vote_count %></td><td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

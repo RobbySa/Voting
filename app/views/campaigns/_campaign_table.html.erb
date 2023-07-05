@@ -1,0 +1,15 @@
+<div class='card'>
+  <h4 style='text-align: center;'>All Campaigns</h4>
+  <table cellspacing='0'>
+    <tr>
+      <th>Campaign Name</th>
+      <th>Vote count</th>
+    </tr>
+    <% campaigns.each do |campaign| %>
+      <tr>
+        <td><%= link_to campaign.name, campaign_path(campaign) %></td>
+        <td><%= campaign.votes_size %></td><td>
+      </tr>
+    <% end %>
+  </table>
+</div>

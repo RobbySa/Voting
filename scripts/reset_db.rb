@@ -1,0 +1,2 @@
+Vote.delete_all
+Campaign.delete_all

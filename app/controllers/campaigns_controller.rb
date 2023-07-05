@@ -9,6 +9,7 @@ class CampaignsController < ApplicationController
     @campaigns = view_all_campaigns
     @campaign = view_campaign(params[:id])
 
+    @invalid_votes = 0
     @vote_split = get_campaign_details(@campaign)
   end
 
@@ -29,7 +30,7 @@ class CampaignsController < ApplicationController
       if vote.validity == 'during'
         vote_split[vote.choice] = (vote_split[vote.choice] || 0) + 1
       else
-        vote_split['Invalid'] = (vote_split['Invalid'] || 0) + 1
+        @invalid_votes += 1
       end
     end
 

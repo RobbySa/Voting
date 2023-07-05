@@ -15,10 +15,14 @@
       </tr>
       <% @vote_split.each do |candidate, vote_count| %>
         <tr>
-          <td><%= candidate %></td>
+          <td><%= candidate.capitalize %></td>
           <td><%= vote_count %></td><td>
         </tr>
       <% end %>
+      <tr>
+        <td>INVALID VOTES</td>
+        <td><%= @invalid_votes %></td><td>
+      </tr>
     </table>
   </div>
 </div>

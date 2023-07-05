@@ -1,10 +1,20 @@
-file = File.open(ARGV.first, 'r')
+# Functions to make code more readable
+def get_votes_from_file(file_name)
+  file = File.open(file_name, 'r')
+  file.readlines
+end
 
-# Hash to store campaigns and their ID
-campaigns = Hash.new
+def campaign_exists(name)
+  get_campaign_by_name(name).present?
+end
 
-votes = file.readlines
-for vote in votes
+def get_campaign_by_name(name)
+  Campaign.find_by(name: name)
+end
+
+# Main script
+all_votes = get_votes_from_file(ARGV.first)
+for vote in all_votes
   # regular expression which captures all the information that we need to store from each vote
   regex = /VOTE (\d+) Campaign:(\w+) Validity:(\w+) Choice:(\w+) CONN:\w+ MSISDN:\d+ GUID:[A-F0-9-]+ Shortcode:\d+/
   matcher = vote.match(regex)
@@ -17,15 +27,13 @@ for vote in votes
     choice   = matcher[4]
 
     # Generate campaign record if not already present in DB
-    unless campaigns.key?(campaign)
+    unless campaign_exists(campaign)
       new_campaign = Campaign.new(name: campaign)
       new_campaign.save
-
-      campaigns[campaign] = new_campaign.id
-    # Create new vote record
-    else
-      new_vote = Vote.new(epoch: epoch, campaign_id: campaigns[campaign], validity: validity, choice: choice)
-      new_vote.save
     end
+
+    # Create new vote record
+    new_vote = Vote.new(epoch: epoch, campaign: get_campaign_by_name(campaign), validity: validity, choice: choice)
+    new_vote.save
   end
 end

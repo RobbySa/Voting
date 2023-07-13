@@ -10,7 +10,7 @@ class CampaignsController < ApplicationController
     @campaign = view_campaign(params[:id])
 
     @invalid_votes = 0
-    @vote_split = get_campaign_details(@campaign)
+    @vote_split = get_campaign_details(@campaign).sort_by {|k, v| v}.reverse.to_h
   end
 
   private

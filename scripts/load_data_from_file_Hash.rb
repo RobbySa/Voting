@@ -9,18 +9,13 @@ def campaign_exists(name, campaign_cache)
 end
 
 def get_campaign_by_name(name, campaign_cache)
-  campaign = campaign_cache.detect { |c| c.name == name }
+  return campaign_cache[name] if campaign_cache[name].present?
 
-  return campaign if campaign.present?
-
-  campaign = Campaign.find_by(name: name)
-
-  campaign_cache.append(campaign) if campaign.present?
-
-  campaign
+  campaign_cache[name] = Campaign.find_by(name: name)
+  campaign_cache[name]
 end
 
-campaign_cache = []
+campaign_cache = Hash.new
 
 # Main script
 all_votes = get_votes_from_file(ARGV.first)
